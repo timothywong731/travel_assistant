@@ -47,7 +47,7 @@ Implement a `POST /travel-assistant` endpoint that:
 - Uses OpenAI to generate a structured response (e.g., recommended destination, reason, budget, tips).
 - Utilise real data in the seed files (e.g., hotels, flights, experiences) i.e. don't rely on AI knowledge.
 - Implement appropriate guardrails.
-- Update or add a new README file with the python run time version and a summary of what you would improve if you had more time.
+- Update or add a new README file with the python run time version and a summary of what you would improve to boost code clarity, maintainability, and production readiness if you had more time.
 
 ### Example Request
 
