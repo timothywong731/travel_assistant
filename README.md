@@ -8,7 +8,7 @@ This test is designed to evaluate your Python, FastAPI, and prompt engineering s
 ## 🧠 Objective
 
 Build a GenAI-powered **Travel Assistant** that responds to natural language travel queries via an API.  
-You should use FastAPI, Pydantic, and OpenAI's GPT model to interpret queries and return structured, helpful travel advice.
+You should use FastAPI, Pydantic (or a similar framework like Langchain), and OpenAI's GPT model to interpret queries and return structured, helpful travel advice.
 
 ---
 
@@ -36,7 +36,7 @@ You must adhere to the following conditions:
 
 - **Code Standards**: Code must be clear, concise, and human readable. Simplicity is often key. We want to see your problem-solving approach and clean architecture.
 
-- **Focus on Implementation**: This is a test of your backend development and AI integration skills. We want to see what you can create with the core technologies.
+- **Focus on Implementation**: This is a test of your backend development and AI integration skills. We want to see what you can create with the core technologies. We suggest you spend 4 to 8 hours on the test but the actual amount of time is down to you.
 
 ---
 
