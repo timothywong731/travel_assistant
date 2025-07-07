@@ -1,11 +1,8 @@
 from fastapi import FastAPI, HTTPException
-from app.schemas import TravelQuery, TravelAdvice, HotelRecommendation, FlightRecommendation, ExperienceRecommendation
-from app.prompt import generate_prompt, HOTEL_LOOKUP_AGENT_PROMPT, FLIGHT_LOOKUP_AGENT_PROMPT, EXPERIENCE_LOOKUP_AGENT_PROMPT, SUPERVISOR_AGENT_PROMPT
-from app.data import search_hotels, search_flights, search_flights_by_month, search_experiences, index_hotels, index_flights, index_experiences
+from app.schemas import TravelQuery, TravelAdvice
+from app.prompt import generate_prompt
+from app.tools import index_hotels, index_flights, index_experiences
 from langchain_openai import ChatOpenAI
-from langgraph_supervisor import create_supervisor
-from langgraph.prebuilt import create_react_agent
-from langgraph.prebuilt.chat_agent_executor import AgentStateWithStructuredResponse
 import os
 from dotenv import load_dotenv
 from app.agents import workflow
