@@ -44,38 +44,6 @@ def test_search_hotels():
         assert results[0]["hotel_name"] == "Hotel A", "The first hotel result should match the mock data"
 
 
-# def test_search_flights(mocker):
-#     """
-#     Use mock framework to test search_flights function.
-#     """
-
-#     with patch('app.data.flights') as mock_flights:
-#         mock_flights.return_value =[
-#             {
-#                 "operating_airline": "Virgin Atlantic",
-#                 "city_depart": "San Francisco",
-#                 "city_arrive": "London",
-#                 "flight_number": "VS0123",
-#             },
-#             {
-#                 "operating_airline": "Virgin Atlantic",
-#                 "city_depart": "Mumbai",
-#                 "city_arrive": "London",
-#                 "flight_number": "VS0124",
-#             },
-#             {
-#                 "operating_airline": "Virgin Atlantic",
-#                 "city_depart": "Tampa",
-#                 "city_arrive": "London",
-#                 "flight_number": "VS0125",
-#             },
-#         ]
-        
-#         results = search_flights("Tampa", "London")
-#         # assert mock_flights.called, "The mock_flights variable should be called during indexing flights"
-#         assert len(results)==1, "There should be 1 flight results returned"
-#         assert results[0]["flight_number"] == "VS0125", "The first flight result should match the mock data"
-
 def test_search_flights_exact_match(monkeypatch):
     """
     Test search_flights returns correct flights for exact city_depart and city_arrive.
