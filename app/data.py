@@ -102,6 +102,8 @@ def search_hotels(query: str):
     """
     Search hotels based on a query string.
     """
+    
+    print(f"🏨 Searching for hotels with query: {query}")
     search_results = hotels_vector_store.similarity_search(query, k=3)
     data = [json.loads(x.page_content) for x in search_results]
     return data
@@ -124,6 +126,8 @@ def search_flights(
     """
     Returns all available flights for a given departure city and arrival city.
     """
+
+    print(f"✈️ Searching for flights from {city_depart} to {city_arrive}...")
     return [f for f in flights if f["city_depart"] == city_depart and f["city_arrive"] == city_arrive]
 
 def search_flights_by_month(
@@ -135,6 +139,7 @@ def search_flights_by_month(
     Returns all available flights for a given departure city, arrival city, and month.
     """
 
+    print(f"✈️ Searching for flights from {city_depart} to {city_arrive} in {month}...")
     return [f for f in flights if f["city_depart"] == city_depart and f["city_arrive"] == city_arrive and 
             (f["depart_month"] == month or f["arrive_month"] == month)]
 
@@ -143,6 +148,8 @@ def search_experiences(query:str):
     """
     Returns all available experiences.
     """
+
+    print(f"🌍 Searching for experiences with query: {query}")
     search_results = experiences_vector_store.similarity_search(query, k=3)
     data = [json.loads(x.page_content) for x in search_results]
     return data
