@@ -68,3 +68,25 @@ Content-Type: application/json
 Please create and commit your code into a **public GitHub repository** and supply the link to the recruiter for review.
 
 Thanks for your time, we look forward to hearing from you!
+
+
+## 📌 Quickstart
+
+To install and run the app, Run the following command:
+
+```bash
+# Set up poetry for virtual environment
+pip install poetry
+
+# Install dependencies using the poetry framework
+poetry install
+
+# Run the app
+poetry run uvicorn main:app --reload
+```
+
+To verify that the app in running correctly, follow the link given in your terminal or go to `http://127.0.0.1:8000/health` in your browser. You should expect to see the following:
+
+```
+{"status":"healthy"}
+```
