@@ -1,14 +1,9 @@
-# VAA GenAI Technical Test — AI Travel Assistant
+# AI Travel Assistant
 
-Welcome to the technical assessment for an AI Software Developer role at VAA.  
-This test is designed to evaluate your Python, FastAPI, and prompt engineering skills using OpenAI's API and structured seed data.
+## 🧠 Overview
 
----
-
-## 🧠 Objective
-
-Build a GenAI-powered **Travel Assistant** that responds to natural language travel queries via an API.  
-You should use FastAPI, Pydantic (or a similar framework like Langchain), and OpenAI's GPT model to interpret queries and return structured, helpful travel advice.
+This is a GenAI-powered **Travel Assistant** that responds to natural language travel queries via an API. 
+The API returns a structured travel advice.
 
 ---
 
@@ -18,61 +13,53 @@ You should use FastAPI, Pydantic (or a similar framework like Langchain), and Op
 - FastAPI
 - OpenAI API Key
 - Pydantic
+- Langgraph
 - Seed data (provided as `.json`)
+- The full list of dependencies can be found in `pyproject.toml`
 
 ---
 
-## 📋 Rules
+## 💪🏽 Features
 
-You must adhere to the following conditions:
+- **Multi-agent framework**: The API is powered by a multi-agent system comprising of several agents in a hierarchical design. This allows agents to refine interim information before responding to end-users.
 
-- **Original Work**: The code must be your own work. If you have a strong case to use a small code snippet from someone else's work (e.g., a boilerplate function), it must be clearly commented and attributed to the original author.
+- **ReACT Agents**: Each agent in the system leverages the [ReACT prompting strategy](https://www.ibm.com/think/topics/react-agent), enabling them to reason, take actions, and iteratively observe outcomes. This approach allows agents to refine their responses step by step, resulting in more accurate and context-aware travel recommendations.
 
-- **Testing**: You must include any unit tests you think are appropriate. Consider testing your API endpoints, data processing logic, and OpenAI integration.
+- **Grounding on verified facts**: All travel recommendations are based strictly on the provided seed data (e.g., hotels, flights, experiences) rather than relying on the AI's general knowledge. This ensures that responses are accurate, up-to-date, and verifiable.
 
-- **Evaluations**: Implement evaluation methods to assess your AI responses. Consider testing for accuracy, relevance, proper use of seed data (vs hallucination), response consistency, and guardrail effectiveness.
+- **Unit Testing**: Comprehensive unit tests are included for core components such as API endpoints, data validation, and agent logic. Tests ensure correct handling of user queries, proper use of seed data, and robust error handling. Example tests cover both typical and edge-case scenarios to maintain reliability and code quality.
 
-- **Performance & Quality**: Give consideration to performance, security, and code quality. Your implementation should be production-ready.
+- **Guardrails and validation**: Implements input validation guardrails to ensure safe, relevant, and high-quality outputs. The system censors unethical, unsafe, or inappropriate topics (eg. gambling) in user queries, ensuring that responses adhere to responsible AI use and content guidelines. 
 
-- **Code Standards**: Code must be clear, concise, and human readable. Simplicity is often key. We want to see your problem-solving approach and clean architecture.
+- **Easy extensibility**: Modular architecture allows for straightforward addition of new agents or new data sources.
 
-- **Focus on Implementation**: This is a test of your backend development and AI integration skills. We want to see what you can create with the core technologies. We suggest you spend 4 to 8 hours on the test but the actual amount of time is down to you.
+- **Developer-friendly setup**: Simple installation and clear instructions for getting started and running the app locally. 
 
----
 
-## ✅ Your Task
+## 🚨 Limitations & Potential Improvements
 
-Implement a `POST /travel-assistant` endpoint that:
-- Accepts a user travel query e.g. `"I'm looking for a beach destination in July"`.
-- Uses OpenAI to generate a structured response (e.g., recommended destination, reason, budget, tips).
-- Utilise real data in the seed files (e.g., hotels, flights, experiences) i.e. don't rely on AI knowledge.
-- Implement appropriate guardrails.
-- Update or add a new README file with the python run time version and a summary of what you would improve to boost code clarity, maintainability, and production readiness if you had more time.
+- **Seed data dependency**: Recommendations are limited to the scope of the provided seed data. The system does not fetch live data (e.g., prices, availability, weather). All responses are based on static seed data. 
 
-### Example Request
+- **Limited personalisation**: User preferences are only considered as described in the query; there is no persistent user profile or learning. Future systems can include user preferences (e.g. search history) for more personalised recommendations, enabling the assistant to tailor suggestions based on past interactions and user profiles.
 
-```json
-POST /travel-assistant
-Content-Type: application/json
+- **Guardrails and Input validation**: Current input validation is basic and may not catch all ambiguous or malformed queries. Future improvements could include more sophisticated input checking, potentially leveraging AI models to better understand and validate user input before processing.
 
-{
-  "query": "Where should I go for a solo foodie trip to Asia in September?"
-}
+- **Hallucination**: While the system uses Retrieval-Augmented Generation (RAG) to ground responses in seed data, it may not fully prevent LLM hallucinations. The model could still generate information not present in the seed files, especially if queries are ambiguous or outside the scope of available data. Ongoing improvements to grounding techniques and stricter data validation are recommended to further minimise hallucinations.
 
-```
+- **Output validation**: The current system could benefit from additional output validation steps. For example, implementing checks to verify specific details such as airport codes and flight numbers in recommendations would help ensure that the information provided is valid and corresponds to the available seed data. This would further reduce the risk of hallucinated or incorrect responses from the LLM.
 
----
+- **Tool portability and integration**: Current tools are tightly coupled to specific agents and use cases. For improved production readiness, consider adopting a Model Context Protocol (MCP) to enable better tool integration and portability. This would allow tools (e.g., flight lookup, booking records, search history) to be reused across different agents and workflows, making it easier to extend the system and add new capabilities without duplicating logic.
 
-## 📤 Supplying Your Code
 
-Please create and commit your code into a **public GitHub repository** and supply the link to the recruiter for review.
 
-Thanks for your time, we look forward to hearing from you!
+## 🔒 Security
+
+No security measures are currently implemented. If this API is exposed to the internet, it could be vulnerable to unauthorised access and attacks. To mitigate these risks, it is recommended to add authentication mechanisms such as OAuth or API keys to ensure that only authorised users or services can invoke the API. Implementing HTTPS and rate limiting are also advised to further enhance security.
 
 
 ## 📌 Quickstart
 
-To install and run the app, Run the following command:
+To install and run the app, run the following command:
 
 ```bash
 # Set up poetry for virtual environment
@@ -85,8 +72,64 @@ poetry install
 poetry run uvicorn main:app --reload
 ```
 
-To verify that the app in running correctly, follow the link given in your terminal or go to `http://127.0.0.1:8000/health` in your browser. You should expect to see the following:
+To verify that the app in running correctly, users can go to the link given in terminal or go to `http://127.0.0.1:8000/health` via browser. The following response is expected:
 
-```
+```json
 {"status":"healthy"}
 ```
+
+
+
+### Example Request
+
+Users can provide a natural language query in the POST request payload by including the question or request as the value of the "query" field in the JSON body. For example, you might ask for travel recommendations or information using everyday language:
+
+```json
+POST /travel-assistant
+Content-Type: application/json
+
+{
+  "query": "I'm looking for a beach destination in July. I depart from London."
+}
+```
+
+The API would run and return a response with the following body:
+
+```json
+{
+    "destination": "Montego Bay",
+    "reason": "Beautiful beaches with excellent summer weather.",
+    "budget": "Moderate to High",
+    "tips": [
+        "Visit Doctor’s Cave Beach for a classic experience.",
+        "Explore the Martha Brae River by bamboo raft.",
+        "Try local jerk chicken at Scotchies."
+    ],
+    "hotel": {
+        "name": "Secrets Wild Orchid",
+        "city": "Montego Bay",
+        "price_per_night": 340.0,
+        "rating": 4.7
+    },
+    "flight": {
+        "airline": "Virgin Atlantic",
+        "from_airport": "LHR",
+        "to_airport": "MBJ",
+        "price": 1200.0,
+        "duration": "PT9H",
+        "date": "2023-07-07"
+    },
+    "experience": {
+        "name": "Catamaran Cruise & Snorkeling",
+        "city": "Montego Bay",
+        "price": 85.0,
+        "duration": "PT4H"
+    }
+}
+```
+
+
+# Further Issues
+
+- The `price` field in the seed data is obfuscated for privacy or licensing reasons, but this field is required in the API response. Currently, the GenAI model may not process or infer the correct price, so returned prices may be inaccurate or placeholder values.
+
