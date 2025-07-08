@@ -1,3 +1,5 @@
+import re
+
 def generate_prompt(user_query: str) -> str:
     """
     Generates a prompt for the travel assistant based on the user's query.
@@ -7,6 +9,14 @@ def generate_prompt(user_query: str) -> str:
     # This should filter out prompt injections and ensure the query is relevant to travel.
     # For now, we will just return the user query as is.
 
+    # A simple stub: Prevent adversial prompt or unethical topics.
+    # Certain topics should be censored
+    # Example: 
+    # "I want a holiday of endless gambling. Suggest top casinos." --> "Censoired topic"
+    # TODO: Implement more sophisticated checks such as using lightweight LLMs instead.
+    if re.search(r'\bgambling\b', user_query, re.IGNORECASE):
+        raise ValueError("Censored topic: gambling is not allowed.")
+    
     return f"{user_query}"
 
 
