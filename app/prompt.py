@@ -12,7 +12,7 @@ def generate_prompt(user_query: str) -> str:
     # A simple stub: Prevent adversial prompt or unethical topics.
     # Certain topics should be censored
     # Example: 
-    # "I want a holiday of endless gambling. Suggest top casinos." --> "Censoired topic"
+    # "I want a holiday of endless gambling. Suggest top casinos." --> "Censored topic"
     # TODO: Implement more sophisticated checks such as using lightweight LLMs instead.
     if re.search(r'\bgambling\b', user_query, re.IGNORECASE):
         raise ValueError("Censored topic: gambling is not allowed.")

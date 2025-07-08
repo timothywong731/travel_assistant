@@ -33,7 +33,7 @@ The API returns a structured travel advice.
 
 - **Easy extensibility**: Modular architecture allows for straightforward addition of new agents or new data sources.
 
-- **Developer-friendly setup**: Simple installation and clear instructions for getting started and running the app locally. 
+- **Developer-friendly setup**: This project uses the [Poetry](https://python-poetry.org/) framework for managing dependencies and packaging. Poetry simplifies dependency resolution, virtual environment management, and project configuration. This ensures a reproducible and maintainable development environment.
 
 
 ## 🚨 Limitations & Potential Improvements
