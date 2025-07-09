@@ -1,8 +1,8 @@
 import re
 
-def generate_prompt(user_query: str) -> str:
+def validate_query(user_query: str) -> str:
     """
-    Generates a prompt for the travel assistant based on the user's query.
+    Validates user's query.
     """
     
     # TODO: Add guardrails to ensure the the user query is a valid travel query

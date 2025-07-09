@@ -53,8 +53,8 @@ The API returns a structured travel advice.
 
 
 ## 🔒 Security
+APIs are vulnerable if exposed to the internet. This project has implemented a simple authentication mechanism using API keys. For production deployments, it is strongly recommended to implement stricter authentication and authorisation measures, such as OAuth2, HTTPS, rate limiting, and monitoring for suspicious activity. Always keep your API keys secure and never expose them in public repositories or client-side code.
 
-No security measures are currently implemented. If this API is exposed to the internet, it could be vulnerable to unauthorised access and attacks. To mitigate these risks, it is recommended to add authentication mechanisms such as OAuth or API keys to ensure that only authorised users or services can invoke the API. Implementing HTTPS and rate limiting are also advised to further enhance security.
 
 
 ## 📌 Quickstart
@@ -87,6 +87,9 @@ Users can provide a natural language query in the POST request payload by includ
 ```json
 POST /travel-assistant
 Content-Type: application/json
+
+Header:
+x-API-Key: secretkey123
 
 {
   "query": "I'm looking for a beach destination in July. I depart from London."

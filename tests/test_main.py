@@ -1,5 +1,6 @@
 import pytest
 from fastapi.testclient import TestClient
+from fastapi import Header
 from app.schemas import TravelAdvice
 from main import app
 import json
@@ -19,11 +20,13 @@ def test_health_check():
 def test_travel_assistant_success(mocker):
     # Mock dependencies
     mock_query = {"query": "I want to visit Paris"}
-    mocker.patch("main.generate_prompt", return_value="Prompt for Paris")
+    mock_header = {"x-API-Key": "secretkey123"}
+    mocker.patch("main.validate_query", return_value="Prompt for Paris")
     mock_workflow = mocker.Mock()
-    
-    mock_workflow.compile.return_value.invoke.return_value = {
-        "messages":[],
+    mock_compile = mocker.Mock()
+    mock_invoke = mocker.Mock()
+    mock_invoke.return_value = {
+        "messages": [],
         "structured_response": TravelAdvice(
             destination="Paris",
             reason="Visit the Eiffel Tower",
@@ -35,13 +38,15 @@ def test_travel_assistant_success(mocker):
             ]
         )
     }
+    mock_compile.invoke = mock_invoke
+    mock_workflow.compile.return_value = mock_compile
     mocker.patch("main.workflow", mock_workflow)
     mocker.patch("main.ChatOpenAI")
     mocker.patch("main.index_hotels")
     mocker.patch("main.index_flights")
     mocker.patch("main.index_experiences")
 
-    response = client.post("/travel-assistant", json=mock_query)
+    response = client.post("/travel-assistant", json=mock_query, headers=mock_header)
     
     assert response.status_code == 200
     assert json.loads(response.content)['destination']=="Paris"
@@ -49,11 +54,12 @@ def test_travel_assistant_success(mocker):
 
 def test_travel_assistant_exception(mocker):
     mock_query = {"query": "I want a holiday of endless gambling. Suggest top casinos."}
-    mocker.patch("main.generate_prompt", side_effect=Exception("Unethical prompt, censored"))
+    mock_header = {"x-API-Key": "secretkey123"}
+    mocker.patch("main.validate_query", side_effect=Exception("Unethical prompt, censored"))
     mocker.patch("main.index_hotels")
     mocker.patch("main.index_flights")
     mocker.patch("main.index_experiences")
 
-    response = client.post("/travel-assistant", json=mock_query)
+    response = client.post("/travel-assistant", json=mock_query, headers=mock_header)
     assert response.status_code == 500
     assert "OpenAI API error" in response.json()["detail"]
